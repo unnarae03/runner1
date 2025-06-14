@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/humble/include",     // ✅ ROS2 헤더 경로 추가
+                "/usr/include",
+                "/usr/local/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",   // ✅ C++ 사용 시 gcc → g++으로
+            "cStandard": "c17",
+            "cppStandard": "c++17",           // ✅ gnu++17 → c++17 (정석)
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
