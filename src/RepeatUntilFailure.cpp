@@ -1,5 +1,4 @@
 #include "runner/RepeatUntilFailure.hpp"
-#include <behaviortree_cpp_v3/bt_factory.h>
 
 RepeatUntilFailure::RepeatUntilFailure(const std::string& name, const BT::NodeConfiguration& config)
   : BT::DecoratorNode(name, config)
@@ -17,20 +16,15 @@ BT::NodeStatus RepeatUntilFailure::tick()
 
   if (abort)
   {
-    return BT::NodeStatus::SUCCESS;
+    return BT::NodeStatus::SUCCESS;  // 루프 종료
   }
 
   const BT::NodeStatus status = child_node_->executeTick();
 
-  if (status == BT::NodeStatus::FAILURE || status == BT::NodeStatus::SUCCESS)
-  {
-    return BT::NodeStatus::RUNNING;
-  }
-
   return status;
 }
 
-#include "behaviortree_cpp_v3/bt_factory.h"
+#include <behaviortree_cpp_v3/bt_factory.h>
 
 BT_REGISTER_NODES(factory)
 {
