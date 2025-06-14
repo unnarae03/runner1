@@ -4,14 +4,17 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/opt/ros/humble/include",     // ✅ ROS2 헤더 경로 추가
+                "/opt/ros/humble/include",                       
+                "/opt/ros/humble/include/nav2_msgs",             // ✅ nav2_msgs 헤더
+                "/opt/ros/humble/include/geometry_msgs",         // ✅ geometry_msgs 헤더
+                "/opt/ros/humble/include/rclcpp_action",         // ✅ action client 헤더
                 "/usr/include",
                 "/usr/local/include"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++",   // ✅ C++ 사용 시 gcc → g++으로
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c17",
-            "cppStandard": "c++17",           // ✅ gnu++17 → c++17 (정석)
+            "cppStandard": "c++17",
             "intelliSenseMode": "linux-gcc-x64"
         }
     ],
