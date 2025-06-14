@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4">
+  <BehaviorTree ID="failure">
+    <Sequence name="MainSequence">
+      <WaitForStart/>
+      <RepeatUntilFailure>
+        <Sequence name="PerWayPoint">
+          <MoveToGoal/>
+          <SetAngle/>
+          <WaitForResult/>
+          <CaptureImage/>
+          <Fallback>
+            <ScriptCondition name="CheckImageMatch"
+                             code="1"/>
+            <Sequence name="RetryIfFail">
+              <SetAngle/>
+              <WaitForResult/>
+              <CaptureImage/>
+              <Fallback>
+                <ScriptCondition name="CheckImageMatch"
+                                 code="1"/>
+                <Sequence name="SetFailureReason">
+                  <SetFailureReason/>
+                  <SaveResult/>
+                </Sequence>
+              </Fallback>
+              <SaveResult/>
+            </Sequence>
+          </Fallback>
+          <SaveResult/>
+        </Sequence>
+      </RepeatUntilFailure>
+      <ReturnToBase/>
+      <SendMetaData/>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="reference">
+    <Sequence name="MainSequence">
+      <WaitForStart/>
+      <RepeatUntilFailure>
+        <Sequence name="PerWayPoint">
+          <MoveToGoal/>
+          <SetAngle/>
+          <WaitForResult/>
+          <CaptureImage/>
+          <reference_saver_node/>
+        </Sequence>
+      </RepeatUntilFailure>
+      <ReturnToBase/>
+      <SendMetaData/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="CaptureImage"
+            editable="true"/>
+    <Action ID="MoveToGoal"
+            editable="true"/>
+    <Decorator ID="RepeatUntilFailure"
+               editable="true"/>
+    <Action ID="ReturnToBase"
+            editable="true"/>
+    <Action ID="SaveResult"
+            editable="true"/>
+    <Action ID="SendMetaData"
+            editable="true"/>
+    <Action ID="SetAngle"
+            editable="true"/>
+    <Action ID="SetFailureReason"
+            editable="true"/>
+    <Action ID="WaitForResult"
+            editable="true"/>
+    <Action ID="WaitForStart"
+            editable="true"/>
+    <Action ID="reference_saver_node"
+            editable="true"/>
+  </TreeNodesModel>
+
+</root>
