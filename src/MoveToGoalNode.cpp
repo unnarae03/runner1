@@ -33,25 +33,11 @@ BT::NodeStatus MoveToGoal::tick()
 
   if (rclcpp::spin_until_future_complete(node_, future_goal_handle) != rclcpp::FutureReturnCode::SUCCESS) {
     RCLCPP_ERROR(node_->get_logger(), "Send goal call failed");
-    return BT::NodeStatus::FAILURE;
+    return BT::NodeStatus::FAILURE;  // 통신 실패일 경우에만 실패
   }
 
-  auto goal_handle = future_goal_handle.get();
-  if (!goal_handle) {
-    RCLCPP_ERROR(node_->get_logger(), "Goal was rejected by server");
-    return BT::NodeStatus::FAILURE;
-  }
-
-  auto result_future = action_client_->async_get_result(goal_handle);
-  if (rclcpp::spin_until_future_complete(node_, result_future) != rclcpp::FutureReturnCode::SUCCESS) {
-    RCLCPP_ERROR(node_->get_logger(), "Failed to get result");
-    return BT::NodeStatus::FAILURE;
-  }
-
-  auto result = result_future.get();
-  return result->result->result == nav2_msgs::action::NavigateToPose::Result::SUCCESS
-             ? BT::NodeStatus::SUCCESS
-             : BT::NodeStatus::FAILURE;
+  // 이동 명령만 내리고 결과는 무시. 다음 노드에서 판단.
+  return BT::NodeStatus::SUCCESS;
 }
 
 void MoveToGoal::halt()
