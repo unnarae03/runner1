@@ -1,19 +1,60 @@
-// src/MoveToGoalNode.cpp
-#include "runner/MoveToGoalNode.hpp"
-#include <iostream>
+#include "runner/MoveToGoal.hpp"
+#include "behaviortree_cpp/bt_factory.h"
+#include <memory>
 
-MoveToGoalNode::MoveToGoalNode(const std::string& name, const BT::NodeConfiguration& config)
-  : BT::SyncActionNode(name, config) {}
-
-BT::PortsList MoveToGoalNode::providedPorts()
+MoveToGoal::MoveToGoal(const std::string& name, const BT::NodeConfiguration& config)
+  : BT::AsyncActionNode(name, config)
 {
-  return {}; // input/output 포트가 있을 경우 여기에 추가
+  node_ = rclcpp::Node::make_shared("move_to_goal_bt_node");
+  action_client_ = rclcpp_action::create_client<nav2_msgs::action::NavigateToPose>(node_, "navigate_to_pose");
+
+  while (!action_client_->wait_for_action_server(std::chrono::seconds(1))) {
+    RCLCPP_INFO(node_->get_logger(), "Waiting for NavigateToPose action server...");
+  }
 }
 
-BT::NodeStatus MoveToGoalNode::tick()
+BT::PortsList MoveToGoal::providedPorts()
 {
-  std::cout << "🏃 [MoveToGoal] 목표 지점으로 이동 중..." << std::endl;
-  
-  // 실제 이동 코드 대신 성공했다고 가정
-  return BT::NodeStatus::SUCCESS;
+  return { BT::InputPort<geometry_msgs::msg::PoseStamped>("goal") };
+}
+
+BT::NodeStatus MoveToGoal::tick()
+{
+  geometry_msgs::msg::PoseStamped goal;
+  if (!getInput("goal", goal)) {
+    throw BT::RuntimeError("Missing required input [goal]");
+  }
+
+  nav2_msgs::action::NavigateToPose::Goal nav_goal;
+  nav_goal.pose = goal;
+
+  auto send_goal_options = rclcpp_action::Client<nav2_msgs::action::NavigateToPose>::SendGoalOptions();
+  auto future_goal_handle = action_client_->async_send_goal(nav_goal, send_goal_options);
+
+  if (rclcpp::spin_until_future_complete(node_, future_goal_handle) != rclcpp::FutureReturnCode::SUCCESS) {
+    RCLCPP_ERROR(node_->get_logger(), "Send goal call failed");
+    return BT::NodeStatus::FAILURE;
+  }
+
+  auto goal_handle = future_goal_handle.get();
+  if (!goal_handle) {
+    RCLCPP_ERROR(node_->get_logger(), "Goal was rejected by server");
+    return BT::NodeStatus::FAILURE;
+  }
+
+  auto result_future = action_client_->async_get_result(goal_handle);
+  if (rclcpp::spin_until_future_complete(node_, result_future) != rclcpp::FutureReturnCode::SUCCESS) {
+    RCLCPP_ERROR(node_->get_logger(), "Failed to get result");
+    return BT::NodeStatus::FAILURE;
+  }
+
+  auto result = result_future.get();
+  return result->result->result == nav2_msgs::action::NavigateToPose::Result::SUCCESS
+             ? BT::NodeStatus::SUCCESS
+             : BT::NodeStatus::FAILURE;
+}
+
+void MoveToGoal::halt()
+{
+  RCLCPP_WARN(node_->get_logger(), "MoveToGoal halt called");
 }
