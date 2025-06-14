@@ -1,5 +1,5 @@
-#include "runner/MoveToGoal.hpp"
-#include "behaviortree_cpp/bt_factory.h"
+#include "runner/MoveToGoalNode.hpp"
+#include <behaviortree_cpp_v3/bt_factory.h>
 #include <memory>
 
 MoveToGoal::MoveToGoal(const std::string& name, const BT::NodeConfiguration& config)

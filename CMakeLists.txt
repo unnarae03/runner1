@@ -5,30 +5,23 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# find dependencies
+# Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(behaviortree_cpp REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(behaviortree_cpp_v3 REQUIRED)
+find_package(nav2_msgs REQUIRED)
+find_package(pluginlib REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # comment the line when a copyright and license is added to all source files
   set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # comment the line when this package is in a git repo and when
-  # a copyright and license is added to all source files
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
-
 include_directories(include)
 
+# ▶ 실행용 노드
 add_executable(bt_main
   src/main.cpp
   src/MoveToGoalNode.cpp
@@ -44,7 +37,12 @@ add_executable(bt_main
 
 ament_target_dependencies(bt_main
   rclcpp
-  behaviortree_cpp
+  behaviortree_cpp_v3
+  nav2_msgs
+)
+
+target_include_directories(bt_main PRIVATE
+  ${behaviortree_cpp_v3_INCLUDE_DIRS}
 )
 
 install(TARGETS bt_main
@@ -55,3 +53,40 @@ install(DIRECTORY behavior_trees
   DESTINATION share/${PROJECT_NAME}
 )
 
+# ▶ Groot plugin용 노드
+add_library(runner_bt_nodes SHARED
+  src/RepeatUntilFailure.cpp
+  src/MoveToGoalNode.cpp
+  src/SetAngleNode.cpp
+  src/WaitForResultNode.cpp
+  src/CaptureImageNode.cpp
+  src/SaveResultNode.cpp
+  src/SetFailureReasonNode.cpp
+  src/ReturnToBaseNode.cpp
+  src/SendMetaDataNode.cpp
+  src/WaitForStartNode.cpp
+)
+
+target_include_directories(runner_bt_nodes PRIVATE
+  include
+  ${behaviortree_cpp_v3_INCLUDE_DIRS}
+)
+
+ament_target_dependencies(runner_bt_nodes
+  rclcpp
+  behaviortree_cpp_v3
+  nav2_msgs
+  pluginlib
+)
+
+pluginlib_export_plugin_description_file(behaviortree_cpp_v3 plugin.xml)
+
+install(TARGETS runner_bt_nodes
+  DESTINATION lib
+)
+
+install(FILES plugin.xml
+  DESTINATION share/${PROJECT_NAME}
+)
+
+ament_package()
