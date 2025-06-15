@@ -8,8 +8,7 @@
 #include "runner/WaitForResultNode.hpp"
 #include "runner/SaveResultNode.hpp"
 #include "runner/ReturnToBaseNode.hpp"
-#include "runner/SendMetaDataNode.hpp"
-#include "runner/WaitForStartNode.hpp"
+
 
 int main(int argc, char **argv)
 {
@@ -24,9 +23,7 @@ int main(int argc, char **argv)
     factory.registerNodeType<WaitForResultNode>("WaitForResult");
     factory.registerNodeType<SaveResultNode>("SaveResult");
     factory.registerNodeType<ReturnToBaseNode>("ReturnToBase");
-    factory.registerNodeType<SendMetaDataNode>("SendMetaData");
-    factory.registerNodeType<WaitForStartNode>("WaitForStart");
-
+    
     // 트리 로딩
     auto tree = factory.createTreeFromFile("behavior_trees/patrol_bt.xml");
 

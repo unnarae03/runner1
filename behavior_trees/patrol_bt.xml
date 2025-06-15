@@ -2,7 +2,6 @@
 <root BTCPP_format="4">
   <BehaviorTree ID="failure">
     <Sequence name="MainSequence">
-      <WaitForStart/>
       <RepeatUntilFailure>
         <Sequence name="PerWayPoint">
           <MoveToGoal/>
@@ -30,13 +29,11 @@
         </Sequence>
       </RepeatUntilFailure>
       <ReturnToBase/>
-      <SendMetaData/>
     </Sequence>
   </BehaviorTree>
 
   <BehaviorTree ID="reference">
     <Sequence name="MainSequence">
-      <WaitForStart/>
       <RepeatUntilFailure>
         <Sequence name="PerWayPoint">
           <MoveToGoal/>
@@ -47,7 +44,6 @@
         </Sequence>
       </RepeatUntilFailure>
       <ReturnToBase/>
-      <SendMetaData/>
     </Sequence>
   </BehaviorTree>
 
@@ -63,13 +59,9 @@
             editable="true"/>
     <Action ID="SaveResult"
             editable="true"/>
-    <Action ID="SendMetaData"
-            editable="true"/>
     <Action ID="SetAngle"
             editable="true"/>
     <Action ID="WaitForResult"
-            editable="true"/>
-    <Action ID="WaitForStart"
             editable="true"/>
     <Action ID="reference_saver_node"
             editable="true"/>

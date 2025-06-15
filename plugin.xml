@@ -15,17 +15,11 @@
   <class name="SaveResultNode"
          type="SaveResultNode"
          base_class_type="BT::TreeNode"/>
-  <class name="SendMetaDataNode"
-         type="SendMetaDataNode"
-         base_class_type="BT::TreeNode"/>
   <class name="SetAngleNode"
          type="SetAngleNode"
          base_class_type="BT::TreeNode"/>
   <class name="WaitForResultNode"
          type="WaitForResultNode"
-         base_class_type="BT::TreeNode"/>
-  <class name="WaitForStartNode"
-         type="WaitForStartNode"
          base_class_type="BT::TreeNode"/>
   <class name="CheckImageMatch"
          type="CheckImageMatch"
