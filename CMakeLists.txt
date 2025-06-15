@@ -112,7 +112,7 @@ install(FILES plugin.xml
   DESTINATION share/${PROJECT_NAME}
 )
 
-rosidl_generate_interfaces(${PROJECT_NAME}
+//rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/CaptureImage.srv"
   "srv/CheckImageMatch.srv"
   "srv/SaveResult.srv"
