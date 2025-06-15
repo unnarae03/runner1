@@ -27,4 +27,7 @@
   <class name="WaitForStartNode"
          type="WaitForStartNode"
          base_class_type="BT::TreeNode"/>
+  <class name="CheckImageMatch"
+         type="CheckImageMatch"
+         base_class_type="BT::TreeNode"/>
 </library>
