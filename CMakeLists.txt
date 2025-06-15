@@ -9,16 +9,15 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-find_package(sensor_msgs REQUIRED)         
-find_package(cv_bridge REQUIRED)           
-find_package(OpenCV REQUIRED)  
+find_package(sensor_msgs REQUIRED)
+find_package(cv_bridge REQUIRED)
+find_package(OpenCV REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(yaml-cpp REQUIRED)  # 🔹 추가
-
-            
+find_package(yaml-cpp REQUIRED)
+find_package(ament_index_cpp REQUIRED)  # ✅ 추가
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -38,32 +37,25 @@ add_executable(bt_main
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
   src/ReturnToBaseNode.cpp
-  
-  //src/UpdateDashboardStatus.cpp
-
   src/CheckImageMatch.cpp 
 )
 
 ament_target_dependencies(bt_main
   rclcpp
   std_msgs
-  sensor_msgs           
-  cv_bridge             
-  OpenCV                
+  sensor_msgs
+  cv_bridge
+  OpenCV
   behaviortree_cpp_v3
   nav2_msgs
-  yaml-cpp             # 🔹 추가
-)
-
-target_include_directories(bt_main PRIVATE
-  ${behaviortree_cpp_v3_INCLUDE_DIRS}
+  yaml-cpp
+  ament_index_cpp  # ✅ 추가
 )
 
 target_include_directories(bt_main PRIVATE
   ${behaviortree_cpp_v3_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
 )
-
 
 install(TARGETS bt_main
   DESTINATION lib/${PROJECT_NAME}
@@ -93,13 +85,13 @@ target_include_directories(runner_bt_nodes PRIVATE
 ament_target_dependencies(runner_bt_nodes
   rclcpp
   std_msgs
-  sensor_msgs           
-  cv_bridge             
-  OpenCV                
+  sensor_msgs
+  cv_bridge
+  OpenCV
   behaviortree_cpp_v3
   nav2_msgs
   pluginlib
-  yaml-cpp             # 🔹 추가
+  yaml-cpp
 )
 
 pluginlib_export_plugin_description_file(behaviortree_cpp_v3 plugin.xml)
@@ -112,10 +104,10 @@ install(FILES plugin.xml
   DESTINATION share/${PROJECT_NAME}
 )
 
-//rosidl_generate_interfaces(${PROJECT_NAME}
-  "srv/CaptureImage.srv"
-  "srv/CheckImageMatch.srv"
-  "srv/SaveResult.srv"
-)
+# rosidl_generate_interfaces(${PROJECT_NAME}
+#   "srv/CaptureImage.srv"
+#   "srv/CheckImageMatch.srv"
+#   "srv/SaveResult.srv"
+# )
 
 ament_package()
