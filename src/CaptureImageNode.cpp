@@ -1,18 +1,19 @@
-#include "runner/CaptureImageNode.hpp"
+#include "runner1/CaptureImageNode.hpp"
 #include "behaviortree_cpp_v3/behavior_tree.h"
 
 #include <opencv2/opencv.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <filesystem>
 #include <chrono>
-#include <fstream>  // 🔹 추가됨
-#include <yaml-cpp/yaml.h>  // 🔹 추가됨
-#include <tf2/LinearMath/Matrix3x3.h>  // 🔹 추가됨
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>  // 🔹 추가됨
+#include <fstream>
+#include <yaml-cpp/yaml.h>
+#include <tf2/LinearMath/Matrix3x3.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include "ament_index_cpp/get_package_share_directory.hpp"  // 🔹 추가됨
 
 using namespace std::chrono_literals;
 
-namespace runner  // 🔹 이 namespace 안에 tick()도 포함되어야 함
+namespace runner1
 {
 
 CaptureImageNode::CaptureImageNode(const std::string& name, const BT::NodeConfiguration& config)
@@ -28,7 +29,6 @@ CaptureImageNode::CaptureImageNode(const std::string& name, const BT::NodeConfig
       image_received_ = true;
     });
 
-  // 🔹 pose_sub_ 추가됨
   pose_sub_ = node_->create_subscription<geometry_msgs::msg::PoseWithCovarianceStamped>(
     "/amcl_pose", 10,
     [this](geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr msg) {
@@ -36,7 +36,6 @@ CaptureImageNode::CaptureImageNode(const std::string& name, const BT::NodeConfig
     });
 }
 
-// 🔹 tick() 위치가 잘못되어 있던 부분을 namespace 안으로 옮김
 BT::NodeStatus CaptureImageNode::tick()
 {
   int capture_id;
@@ -53,7 +52,7 @@ BT::NodeStatus CaptureImageNode::tick()
     rate.sleep();
   }
 
-  if (!image_received_ || !latest_image_ || !latest_pose_) {  // 🔹 pose 체크도 추가됨
+  if (!image_received_ || !latest_image_ || !latest_pose_) {
     RCLCPP_ERROR(node_->get_logger(), "No image or pose received");
     return BT::NodeStatus::FAILURE;
   }
@@ -67,20 +66,23 @@ BT::NodeStatus CaptureImageNode::tick()
   }
 
   std::string filename = std::to_string(capture_id) + ".jpg";
-  std::string save_path = "/home/hayeon/runner1/logs/images/current/" + filename;
+  std::string yaml_filename = std::to_string(capture_id) + ".yaml";
+
+  // 🔹 ROS 패키지 내 경로 기준으로 설정
+  std::string package_path = ament_index_cpp::get_package_share_directory("runner1");
+  std::string save_path = package_path + "/logs/images/current/" + filename;
+  std::string yaml_path = package_path + "/logs/images/current/" + yaml_filename;
 
   if (!cv::imwrite(save_path, cv_ptr->image)) {
     RCLCPP_ERROR(node_->get_logger(), "Failed to save image to %s", save_path.c_str());
     return BT::NodeStatus::FAILURE;
   }
 
-  // 🔹 timestamp 생성
   auto now = std::chrono::system_clock::now();
   std::time_t now_c = std::chrono::system_clock::to_time_t(now);
   char time_str[100];
   std::strftime(time_str, sizeof(time_str), "%F %T", std::localtime(&now_c));
 
-  // 🔹 orientation → RPY 변환
   tf2::Quaternion q(
     latest_pose_->pose.pose.orientation.x,
     latest_pose_->pose.pose.orientation.y,
@@ -89,9 +91,6 @@ BT::NodeStatus CaptureImageNode::tick()
   tf2::Matrix3x3 m(q);
   double roll, pitch, yaw;
   m.getRPY(roll, pitch, yaw);
-
-  // 🔹 YAML 저장
-  std::string yaml_path = "/home/hayeon/runner1/logs/images/current/" + std::to_string(capture_id) + ".yaml";
 
   YAML::Emitter out;
   out << YAML::BeginMap;
@@ -115,4 +114,4 @@ BT::NodeStatus CaptureImageNode::tick()
   return BT::NodeStatus::SUCCESS;
 }
 
-}  // namespace runner
+}  // namespace runner1

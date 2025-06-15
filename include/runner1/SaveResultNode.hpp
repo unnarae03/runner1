@@ -3,7 +3,7 @@
 #include <behaviortree_cpp_v3/action_node.h>
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/string.hpp"
-#include "runner_interfaces/srv/image_result.hpp"
+#include "runner1_interfaces/srv/image_result.hpp"
 #include <crow.h>  // Web dashboard framework
 #include <mutex>
 #include <nlohmann/json.hpp>
@@ -21,7 +21,7 @@ public:
 
 private:
   rclcpp::Node::SharedPtr node_;
-  rclcpp::Client<runner_interfaces::srv::ImageResult>::SharedPtr client_;
+  rclcpp::Client<runner1_interfaces::srv::ImageResult>::SharedPtr client_;
 
   // 웹 대시보드 관련
   std::thread crow_thread_;

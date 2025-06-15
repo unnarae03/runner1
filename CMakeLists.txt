@@ -17,7 +17,8 @@ find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 find_package(yaml-cpp REQUIRED)
-find_package(ament_index_cpp REQUIRED)  # ✅ 추가
+find_package(ament_index_cpp REQUIRED)  
+find_package(tf2_ros REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -49,7 +50,8 @@ ament_target_dependencies(bt_main
   behaviortree_cpp_v3
   nav2_msgs
   yaml-cpp
-  ament_index_cpp  # ✅ 추가
+  ament_index_cpp  
+  tf2_ros
 )
 
 target_include_directories(bt_main PRIVATE
@@ -66,7 +68,7 @@ install(DIRECTORY behavior_trees
 )
 
 # ▶ Groot plugin용 노드
-add_library(runner_bt_nodes SHARED
+add_library(runner1_bt_nodes SHARED
   src/RepeatUntilFailure.cpp
   src/MoveToGoalNode.cpp
   src/SetAngleNode.cpp
@@ -77,12 +79,12 @@ add_library(runner_bt_nodes SHARED
   src/CheckImageMatch.cpp
 )
 
-target_include_directories(runner_bt_nodes PRIVATE
+target_include_directories(runner1_bt_nodes PRIVATE
   include
   ${behaviortree_cpp_v3_INCLUDE_DIRS}
 )
 
-ament_target_dependencies(runner_bt_nodes
+ament_target_dependencies(runner1_bt_nodes
   rclcpp
   std_msgs
   sensor_msgs
@@ -92,16 +94,18 @@ ament_target_dependencies(runner_bt_nodes
   nav2_msgs
   pluginlib
   yaml-cpp
+  tf2_ros 
 )
 
 pluginlib_export_plugin_description_file(behaviortree_cpp_v3 plugin.xml)
 
-install(TARGETS runner_bt_nodes
+install(TARGETS runner1_bt_nodes
   DESTINATION lib
 )
 
-install(FILES plugin.xml
-  DESTINATION share/${PROJECT_NAME}
+install(
+  DIRECTORY include/runner1
+  DESTINATION include
 )
 
 # rosidl_generate_interfaces(${PROJECT_NAME}
