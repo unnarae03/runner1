@@ -29,7 +29,6 @@ add_executable(bt_main
   src/WaitForResultNode.cpp
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
-  src/SetFailureReasonNode.cpp
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp
@@ -61,7 +60,6 @@ add_library(runner_bt_nodes SHARED
   src/WaitForResultNode.cpp
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
-  src/SetFailureReasonNode.cpp
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp

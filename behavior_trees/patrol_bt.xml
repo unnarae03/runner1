@@ -20,7 +20,6 @@
                 <ScriptCondition name="CheckImageMatch"
                                  code="1"/>
                 <Sequence name="SetFailureReason">
-                  <SetFailureReason/>
                   <SaveResult/>
                 </Sequence>
               </Fallback>
@@ -67,8 +66,6 @@
     <Action ID="SendMetaData"
             editable="true"/>
     <Action ID="SetAngle"
-            editable="true"/>
-    <Action ID="SetFailureReason"
             editable="true"/>
     <Action ID="WaitForResult"
             editable="true"/>

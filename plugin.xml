@@ -21,9 +21,6 @@
   <class name="SetAngleNode"
          type="SetAngleNode"
          base_class_type="BT::TreeNode"/>
-  <class name="SetFailureReasonNode"
-         type="SetFailureReasonNode"
-         base_class_type="BT::TreeNode"/>
   <class name="WaitForResultNode"
          type="WaitForResultNode"
          base_class_type="BT::TreeNode"/>
