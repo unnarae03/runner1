@@ -6,7 +6,7 @@
 #include "geometry_msgs/msg/pose_with_covariance_stamped.hpp"  // 🔹 추가됨
 #include "runner1/srv/capture_image.hpp"
 
-namespace runner
+namespace runner1
 {
 
 class CaptureImageNode : public BT::AsyncActionNode

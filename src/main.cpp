@@ -3,12 +3,12 @@
 #include <ament_index_cpp/get_package_share_directory.hpp>  // ✅ 추가
 
 // 각 노드 헤더 include
-#include "runner/MoveToGoalNode.hpp"
-#include "runner/CaptureImageNode.hpp"
-#include "runner/SetAngleNode.hpp"
-#include "runner/WaitForResultNode.hpp"
-#include "runner/SaveResultNode.hpp"
-#include "runner/ReturnToBaseNode.hpp"
+#include "runner1/MoveToGoalNode.hpp"
+#include "runner1/CaptureImageNode.hpp"
+#include "runner1/SetAngleNode.hpp"
+#include "runner1/WaitForResultNode.hpp"
+#include "runner1/SaveResultNode.hpp"
+#include "runner1/ReturnToBaseNode.hpp"
 
 int main(int argc, char **argv)
 {
