@@ -8,6 +8,7 @@ endif()
 # Find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
@@ -33,11 +34,15 @@ add_executable(bt_main
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp
-  src/CheckImageMatch.cpp  
+  
+  //src/UpdateDashboardStatus.cpp
+
+  src/CheckImageMatch.cpp 
 )
 
 ament_target_dependencies(bt_main
   rclcpp
+  std_msgs
   behaviortree_cpp_v3
   nav2_msgs
 )
@@ -65,6 +70,7 @@ add_library(runner_bt_nodes SHARED
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp
+  src/UpdateDashboardStatus.cpp
 )
 
 target_include_directories(runner_bt_nodes PRIVATE
@@ -74,6 +80,7 @@ target_include_directories(runner_bt_nodes PRIVATE
 
 ament_target_dependencies(runner_bt_nodes
   rclcpp
+  std_msgs
   behaviortree_cpp_v3
   nav2_msgs
   pluginlib
