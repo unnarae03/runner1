@@ -1,0 +1,5 @@
+string reference_path
+string current_path
+---
+bool is_anomaly
+int32[] bounding_box
