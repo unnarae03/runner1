@@ -1,0 +1,4 @@
+int32 capture_id
+---
+bool success
+string filename

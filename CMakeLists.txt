@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(runner)
+project(runner1)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -12,6 +12,7 @@ find_package(std_msgs REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -33,7 +34,10 @@ add_executable(bt_main
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp
-  src/UpdateDashboardStatus.cpp
+  
+  //src/UpdateDashboardStatus.cpp
+
+  src/CheckImageMatch.cpp 
 )
 
 ament_target_dependencies(bt_main
@@ -90,6 +94,12 @@ install(TARGETS runner_bt_nodes
 
 install(FILES plugin.xml
   DESTINATION share/${PROJECT_NAME}
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/CaptureImage.srv"
+  "srv/CheckImageMatch.srv"
+  "srv/SaveResult.srv"
 )
 
 ament_package()

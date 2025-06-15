@@ -1,0 +1,7 @@
+string image_path
+string timestamp
+string position
+string result_summary
+---
+bool success
+string dashboard_url

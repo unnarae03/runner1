@@ -7,7 +7,6 @@
 #include "runner/SetAngleNode.hpp"
 #include "runner/WaitForResultNode.hpp"
 #include "runner/SaveResultNode.hpp"
-#include "runner/SetFailureReasonNode.hpp"
 #include "runner/ReturnToBaseNode.hpp"
 #include "runner/SendMetaDataNode.hpp"
 #include "runner/WaitForStartNode.hpp"
@@ -24,7 +23,6 @@ int main(int argc, char **argv)
     factory.registerNodeType<CaptureImageNode>("CaptureImage");
     factory.registerNodeType<WaitForResultNode>("WaitForResult");
     factory.registerNodeType<SaveResultNode>("SaveResult");
-    factory.registerNodeType<SetFailureReasonNode>("SetFailureReason");
     factory.registerNodeType<ReturnToBaseNode>("ReturnToBase");
     factory.registerNodeType<SendMetaDataNode>("SendMetaData");
     factory.registerNodeType<WaitForStartNode>("WaitForStart");
