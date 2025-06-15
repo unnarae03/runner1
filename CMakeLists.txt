@@ -33,6 +33,7 @@ add_executable(bt_main
   src/ReturnToBaseNode.cpp
   src/SendMetaDataNode.cpp
   src/WaitForStartNode.cpp
+  src/CheckImageMatch.cpp  
 )
 
 ament_target_dependencies(bt_main
