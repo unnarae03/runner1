@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <random>
-#include <behaviortree_cpp_v3/bt_factory.h>
+#include "behaviortree_cpp_v3/behavior_tree.h"
 
 SetAngleNode::SetAngleNode(const std::string& name, const BT::NodeConfiguration& config)
   : BT::SyncActionNode(name, config),
