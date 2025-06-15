@@ -16,6 +16,8 @@ find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(yaml-cpp REQUIRED)  # 🔹 추가
+
             
 
 if(BUILD_TESTING)
@@ -50,6 +52,7 @@ ament_target_dependencies(bt_main
   OpenCV                
   behaviortree_cpp_v3
   nav2_msgs
+  yaml-cpp             # 🔹 추가
 )
 
 target_include_directories(bt_main PRIVATE
@@ -96,6 +99,7 @@ ament_target_dependencies(runner_bt_nodes
   behaviortree_cpp_v3
   nav2_msgs
   pluginlib
+  yaml-cpp             # 🔹 추가
 )
 
 pluginlib_export_plugin_description_file(behaviortree_cpp_v3 plugin.xml)
