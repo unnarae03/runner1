@@ -32,21 +32,6 @@
     </Sequence>
   </BehaviorTree>
 
-  <BehaviorTree ID="reference">
-    <Sequence name="MainSequence">
-      <RepeatUntilFailure>
-        <Sequence name="PerWayPoint">
-          <MoveToGoal/>
-          <SetAngle/>
-          <WaitForResult/>
-          <CaptureImage/>
-          <reference_saver_node/>
-        </Sequence>
-      </RepeatUntilFailure>
-      <ReturnToBase/>
-    </Sequence>
-  </BehaviorTree>
-
   <!-- Description of Node Models (used by Groot) -->
   <TreeNodesModel>
     <Action ID="CaptureImage"
