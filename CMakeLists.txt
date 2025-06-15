@@ -74,7 +74,7 @@ add_library(runner_bt_nodes SHARED
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
   src/ReturnToBaseNode.cpp
-  src/UpdateDashboardStatus.cpp
+  src/CheckImageMatch.cpp
 )
 
 target_include_directories(runner_bt_nodes PRIVATE
