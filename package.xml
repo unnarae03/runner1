@@ -11,6 +11,10 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend> 
+  <depend>sensor_msgs</depend>            
+  <depend>cv_bridge</depend>              
+  <depend>image_transport</depend>        
+  <depend>opencv2</depend>                
   <depend>behaviortree_cpp_v3</depend>
   <depend>pluginlib</depend>
   <depend>nav2_msgs</depend>

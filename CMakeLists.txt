@@ -9,10 +9,14 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)         
+find_package(cv_bridge REQUIRED)           
+find_package(OpenCV REQUIRED)  
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+            
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -43,6 +47,9 @@ add_executable(bt_main
 ament_target_dependencies(bt_main
   rclcpp
   std_msgs
+  sensor_msgs           
+  cv_bridge             
+  OpenCV                
   behaviortree_cpp_v3
   nav2_msgs
 )
@@ -50,6 +57,12 @@ ament_target_dependencies(bt_main
 target_include_directories(bt_main PRIVATE
   ${behaviortree_cpp_v3_INCLUDE_DIRS}
 )
+
+target_include_directories(bt_main PRIVATE
+  ${behaviortree_cpp_v3_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+)
+
 
 install(TARGETS bt_main
   DESTINATION lib/${PROJECT_NAME}
@@ -81,6 +94,9 @@ target_include_directories(runner_bt_nodes PRIVATE
 ament_target_dependencies(runner_bt_nodes
   rclcpp
   std_msgs
+  sensor_msgs           
+  cv_bridge             
+  OpenCV                
   behaviortree_cpp_v3
   nav2_msgs
   pluginlib
