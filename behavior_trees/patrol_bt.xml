@@ -48,7 +48,7 @@
             editable="true"/>
     <Action ID="WaitForResult"
             editable="true"/>
-    <Action ID="reference_saver_node"
+    <Condition ID="CheckImageMatch"
             editable="true"/>
   </TreeNodesModel>
 
