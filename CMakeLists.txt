@@ -36,8 +36,6 @@ add_executable(bt_main
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
   src/ReturnToBaseNode.cpp
-  src/SendMetaDataNode.cpp
-  src/WaitForStartNode.cpp
   
   //src/UpdateDashboardStatus.cpp
 
@@ -81,8 +79,6 @@ add_library(runner_bt_nodes SHARED
   src/CaptureImageNode.cpp
   src/SaveResultNode.cpp
   src/ReturnToBaseNode.cpp
-  src/SendMetaDataNode.cpp
-  src/WaitForStartNode.cpp
   src/UpdateDashboardStatus.cpp
 )
 
