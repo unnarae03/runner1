@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(behaviortree_cpp_v3 REQUIRED)
 find_package(nav2_msgs REQUIRED)
 find_package(pluginlib REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -85,6 +86,12 @@ install(TARGETS runner_bt_nodes
 
 install(FILES plugin.xml
   DESTINATION share/${PROJECT_NAME}
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/CaptureImage.srv"
+  "srv/CheckImageMatch.srv"
+  "srv/SaveResult.srv"
 )
 
 ament_package()
